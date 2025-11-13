@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Sign Up</title>
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap&subset=latin-ext"
+        rel="stylesheet"
+    />
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/fontawesome-all.css" rel="stylesheet" />
+    <link href="css/swiper.css" rel="stylesheet" />
+    <link href="css/magnific-popup.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+
+    <link rel="icon" href="images/favicon.png" />
+</head>
+<body>
+    <header id="header" class="ex-2-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>Sign Up</h1>
+                    <p>
+                        Already signed up?
+                        <a href="log-in.html">Log In</a>
+                    </p>
+
+                    <div class="form-container">
+                        <form id="signUpForm" method="POST" action="php/signupform-process.php">
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    class="form-control-input"
+                                    id="semail"
+                                    placeholder=" "
+                                    required
+                                />
+                                <label class="label-control" for="semail">Email</label>
+                            </div>
+                            <div class="form-group">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    class="form-control-input"
+                                    id="sname"
+                                    placeholder=" "
+                                    required
+                                />
+                                <label class="label-control" for="sname">Name</label>
+                            </div>
+                            <div class="form-group" style="position: relative;">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    class="form-control-input"
+                                    id="spassword"
+                                    placeholder=" "
+                                    required
+                                />
+                                <label class="label-control" for="spassword">Password</label>
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    aria-label="Show password"
+                                    style="
+                                        position: absolute;
+                                        right: 12px;
+                                        top: 50%;
+                                        transform: translateY(-50%);
+                                        background: none;
+                                        border: none;
+                                        cursor: pointer;
+                                        color: #5f4dee;
+                                        font-weight: 600;
+                                        font-size: 0.85rem;
+                                    "
+                                >
+                                    Show
+                                </button>
+                            </div>
+                            <div class="form-group checkbox">
+                                <input
+                                    type="checkbox"
+                                    name="terms"
+                                    id="sterms"
+                                    value="Agreed-to-Terms"
+                                    required
+                                />
+                                I agree with Jubayer's Privacy Policy and Terms Conditions
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control-submit-button">
+                                    SIGN UP
+                                </button>
+                            </div>
+                            <div class="form-message">
+                                <div id="smsgSubmit" class="h3 text-center"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/validator.min.js"></script>
+
+    <script>
+        // Toggle password show/hide
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', () => {
+                const formGroup = button.closest('.form-group');
+                if (!formGroup) return;
+                const input = formGroup.querySelector('input');
+                if (!input) return;
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    button.textContent = 'Hide';
+                    button.setAttribute('aria-label', 'Hide password');
+                } else {
+                    input.type = 'password';
+                    button.textContent = 'Show';
+                    button.setAttribute('aria-label', 'Show password');
+                }
+            });
+        });
+
+        // Ajax form submission
+        $('#signUpForm').on('submit', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'php/signupform-process.php',
+                data: $(this).serialize(),
+                success: function (response) {
+                    $('#smsgSubmit').html(response);
+                },
+                error: function () {
+                    $('#smsgSubmit').html('An error occurred.');
+                },
+            });
+        });
+    </script>
+</body>
+</html>
